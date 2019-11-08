@@ -8,43 +8,46 @@ var client = restify.createJsonClient ({
 
 });
 
-/* GET users listing. */
-// router: Refere-se ao nosso cliente
+/* GET  */
 router.get('/', function(req, res, next) {
   // client: Refere-se ao servidor do banco de dados
-  client.get( '/users' , function(err , request , response , obj ){
+  client.get( '/' , function(err , request , response , obj ){
     //CASO ERRO
     assert.ifError(err); 
     res.json(obj)
   }); 
 });
 
+/* GET COM FILTRO  */
 router.get('/:id', function(req, res, next) {
-  client.get( `/users/${req.params.id}` , function(err , request , response , obj ){
+  client.get( `/${req.params.id}` , function(err , request , response , obj ){
     //CASO ERRO
     assert.ifError(err); 
     res.json(obj)
   }); 
 });
 
+/* PUT  */
 router.put('/:id', function(req, res, next) {
-  client.put( `/users/${req.params.id}`, req.body, function(err , request , response , obj ){
+  client.put( `/${req.params.id}`, req.body, function(err , request , response , obj ){
     //CASO ERRO
     assert.ifError(err); 
     res.json(obj)
   }); 
 });
 
+/* DELETE  */
 router.delete('/:id', function(req, res, next) {
-  client.del( `/users/${req.params.id}`, function(err , request , response , obj ){
+  client.del( `/${req.params.id}`, function(err , request , response , obj ){
     //CASO ERRO
     assert.ifError(err); 
     res.json(obj) 
   }); 
 });
 
+/* POST  */
 router.post('/', function(req, res, next) {
-  client.post( `/users`, req.body, function(err , request , response , obj ){
+  client.post( `/`, req.body, function(err , request , response , obj ){
     //CASO ERRO
     assert.ifError(err); 
     res.json(obj)

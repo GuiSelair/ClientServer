@@ -122,10 +122,10 @@ class User{
     return new Promise((resolve, reject) => {
       let promise
       if (this.id){
-        promise = HttpRequest.put(`/users/${this.id}`, this.toJSON())
+        promise = HttpRequest.put(`users/${this.id}`, this.toJSON())
       }
       else{
-        promise = HttpRequest.post(`/users`, this.toJSON())
+        promise = HttpRequest.post(`users/`, this.toJSON())
       }
 
       promise.then( data => {
@@ -137,14 +137,7 @@ class User{
 
   }
 
-  remove(){
-    let userID = this.id
-    users.forEach((userData, index) => {
-      if (this._id == userData._id){
-        users.splice(index, 1)
-      }
-    });
-    sessionStorage.setItem("user", JSON.stringify(users))    
+  async remove(){
+     await HttpRequest.delete(`users/${this.id}`)
   }
-
 }

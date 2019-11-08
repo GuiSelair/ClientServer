@@ -7,8 +7,10 @@ let db = new NeDB({
 
 module.exports = (app) => {
 
-    const route = app.route("/users")
+    const route = app.route("/")
+    const routeID = app.route("/:id");
 
+    // GET
     route.get((req, res) => {
         
         // FIND: Método do NEDB para encontrar algo (Como se fosse um SELECT). Foi passado um JSON vazio para buscar todas as ocorrencias.
@@ -28,11 +30,9 @@ module.exports = (app) => {
         })
         
     })
-    
-    route.post([
-                check("_name", "O nome é obrigatório e não pode ser nulo").isLength({ min: 5 }),
-                check("_email", "Obrigatório ser um email valido").isEmail()
-    ], (req, res) => {
+
+    // POST
+    route.post([check("_name", "O nome é obrigatório e não pode ser nulo").isLength({ min: 5 }), check("_email", "Obrigatório ser um email valido").isEmail()], (req, res) => {
 
         const errors = validationResult(req)
         
@@ -55,7 +55,7 @@ module.exports = (app) => {
 
     })
 
-    const routeID = app.route("/users/:id");
+    // GET COM FILTRO
     routeID.get((req, res) => {
 
         // FINDONE: Encontra apena uma ocorrência de um determinado item, por isso deve-se informar o ID do objeto que procura
@@ -70,10 +70,7 @@ module.exports = (app) => {
     })
 
     // PUT: Método do HTTP que realizar modificações
-    routeID.put([
-        check("_name", "O nome é obrigatório e não pode ser nulo").isLength({ min: 5 }),
-        check("_email", "A idade é obritoria e tem que conter apenas números").isEmail()
-        ],(req, res) => {
+    routeID.put([check("_name", "O nome é obrigatório e não pode ser nulo").isLength({ min: 5 }),check("_email", "A idade é obritoria e tem que conter apenas números").isEmail()],(req, res) => {
 
         const errors = validationResult(req)
         if (!errors.isEmpty()){

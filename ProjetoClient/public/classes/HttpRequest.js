@@ -17,7 +17,6 @@ class HttpRequest {
                 let obj = {}
                 try {
                     // Pegamos o texto que o servidor nos enviou em formato de texto e tratamos como um JSON
-                    console.log(ajax.responseText)
                     obj = JSON.parse(ajax.responseText)
                     console.log(obj);
                     

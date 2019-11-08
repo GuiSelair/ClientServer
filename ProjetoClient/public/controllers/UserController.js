@@ -208,6 +208,8 @@ class UserController{
   }
 
   addEventTR(tr){
+
+    // DELETE
     tr.querySelector(".btn-delete").addEventListener("click", event => {
       if (confirm("Deseja realmente excluir? ")){
         let user = new User()
@@ -219,17 +221,18 @@ class UserController{
 
     })
 
+    // EDIT
     tr.querySelector(".btn-edit").addEventListener("click", e => {
       let json = JSON.parse(tr.dataset.user)
       let form = document.querySelector("#form-user-update")
       form.dataset.trID = tr.sectionRowIndex;
       for (let campo in json){
         let field = form.querySelector("[name="+campo.replace("_", "")+"]")
+        console.log(field)
         if (field){
           switch (field.type) {
             case "file":
               continue;
-              break;  
             case "radio":
               field = form.querySelector("[name="+campo.replace("_", "")+"][value="+json[campo]+"]");
               field.checked = true;
