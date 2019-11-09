@@ -1,6 +1,3 @@
-//import { Http2ServerRequest } from "http2";
-//import { rejects } from "assert";
-
 class User{
 
   constructor(name, gender, birth, country, email, password, photo, admin){
@@ -15,6 +12,10 @@ class User{
     this._photo = photo;
     this._admin = admin;
   }
+
+  /*
+   *  METODOS GETTER E SETTER DOS ATRIBUTOS DO OBJETO USER
+   */
 
   get id(){
     return this._id;
@@ -43,10 +44,10 @@ class User{
   get gender(){
     return this._gender
   }
+
   set gender(value){
     this._gender = value
   }
-
 
   get birth(){
     return this._birth
@@ -75,6 +76,10 @@ class User{
     return this._admin
   }
 
+  /*
+   *  RECEBE O JSON DO BANCO DE DADOS, LÊ E ADICIONA AO OBJETO USER SUAS INFORMAÇÕES  
+   */
+
   loadFromJSON(json){
     for(let name in json){
       switch (name) {
@@ -82,30 +87,15 @@ class User{
           this[name] = new Date(json[name])
           break;
         default:
+          /* SÓ LÊ A CHAVE QUE ESTIVER COM _ */
           if (name.substring(0, 1) === "_") this[name] = json[name]
       }
     }
   }
 
   /*
-  static getUsersStorages(){
-    let users = []
-    if (sessionStorage.getItem("user")){
-      users = JSON.parse(sessionStorage.getItem("user"))
-    }
-    return users
-  }
-  */
-
-  getNewID(){
-    let userID = parseInt(sessionStorage.getItem("userID"))
-    if (!userID) userID = 0;
-    userID++
-    sessionStorage.setItem("userID", userID)    
-    return userID
-  }
-
-  // ADICIONA NOVOS CADASTROS NO SESSION STORAGES
+   *  TRANSFORMA UM OBJETO EM JSON
+   */
 
   toJSON() {
     let json = {}
@@ -118,6 +108,10 @@ class User{
     return json
   }
 
+  /*
+   *  SALVA OS DADOS DO USUÁRIO NO BANCO DE DADOS FAZENDO REQUISIÇÕES AJAX 
+   */
+
   save(){
     return new Promise((resolve, reject) => {
       let promise
@@ -125,7 +119,7 @@ class User{
         promise = HttpRequest.put(`users/${this.id}`, this.toJSON())
       }
       else{
-        promise = HttpRequest.post(`users/`, this.toJSON())
+        promise = Fetch.post(`users/`, this.toJSON())
       }
 
       promise.then( data => {
@@ -133,9 +127,11 @@ class User{
         resolve(this)
       }).catch(e => reject(e))
     })
-    
-
   }
+
+  /*
+   *  REMOVE UM USUÁRIO DO BANCO DE DADOS 
+   */
 
   async remove(){
      await HttpRequest.delete(`users/${this.id}`)

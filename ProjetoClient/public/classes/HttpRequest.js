@@ -1,3 +1,8 @@
+
+/*
+ *  CLASSE HTTPREQUEST: VELHA CLASSE AJAX PARA REQUISIÇÕES ASSINCRONAS 
+ */
+
 class HttpRequest {
     static request(metodo, url, params = {}){
         return new Promise((resolve, reject) => {

@@ -166,7 +166,7 @@ class UserController{
   // SELECIONA TODOS OS DADOS DO SERVIDOR E CRIA UM TR PARA CADA
   selectAll(){
 
-    HttpRequest.get("/users").then(json => {
+    Fetch.get("/users").then(json => {
       json.users.forEach(dataUser => {
         let user = new User()
         user.loadFromJSON(dataUser)
