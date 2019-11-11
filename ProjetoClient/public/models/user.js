@@ -1,3 +1,7 @@
+/*
+ *  CLASSE RELACIONADA AOS USUÁRIOS DA APLICAÇÃO 
+ */
+
 class User{
 
   constructor(name, gender, birth, country, email, password, photo, admin){

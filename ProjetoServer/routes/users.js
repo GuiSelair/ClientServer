@@ -1,14 +1,23 @@
+/*
+ *  ARQUIVO DE ROTAS PARA CRUD DE USUÁRIOS 
+ */
+
+//  IMPORTAÇÃO DO BANCO DE DADOS
 const NeDB = require("nedb")
+
+//  IMPORTAÇÃO DO VALIDADOR
 const {check, validationResult} = require("express-validator")
+
+// CONFIGURAÇÃO DO NEDB
 let db = new NeDB({
     filename: "users.db",
     autoload: true
 })
 
+//  EXPORTANDO MODULO
 module.exports = (app) => {
-
     const route = app.route("/")
-    const routeID = app.route("/:id");
+    const routeID = app.route("/:id")
 
     // GET
     route.get((req, res) => {
@@ -41,7 +50,6 @@ module.exports = (app) => {
             return false;
         }
         
-
         // INSERT: Insere um registro ao NEDB, contendo também instancias para erro e sucesso.
         db.insert(req.body, (erro, user) => {
             if (erro){
@@ -49,10 +57,8 @@ module.exports = (app) => {
             }
             else{
                 res.status(200).json(user)
-            }
-            
+            }  
         })
-
     })
 
     // GET COM FILTRO
@@ -89,6 +95,7 @@ module.exports = (app) => {
         })
     })
 
+    // DELETE
     routeID.delete((req, res) => {
 
         // REMOVE: Apaga a ocorrência do banco de dados

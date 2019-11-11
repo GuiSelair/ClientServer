@@ -14,8 +14,7 @@ class UserController{
     
     document.querySelector("#box-user-update .btn-cancel").addEventListener("click", e => {
       this.formEl.reset()
-      document.querySelector("#box-user-update").style.display = "none"
-      document.querySelector("#box-user-create").style.display = "block"
+      showPanelEdit()
     })
 
     this.formUpdateEl.addEventListener("submit", (event) => {
@@ -84,12 +83,17 @@ class UserController{
     });
   }
 
+  //  EXIBE O PAINEL DE CREATE
   showPanelCreate(){
-
     document.querySelector("#box-user-create").style.display = "block";
     document.querySelector("#box-user-update").style.display = "none";
+  }
 
-}
+  //  EXIBE O PAINEL DE UPDATE
+  showPanelEdit(){
+    document.querySelector("#box-user-update").style.display = "none"
+    document.querySelector("#box-user-create").style.display = "block"
+  }
   
   // OBTEM A URL DA IMAGEM
   getPhoto(formEl){
@@ -160,10 +164,8 @@ class UserController{
       user.photo,
       user.admin);
   }
-
-//==============================REQUISITANDO DADOS DO BANCO DE DADOS E EXIBINDE-OS=============================================
-  
-  // SELECIONA TODOS OS DADOS DO SERVIDOR E CRIA UM TR PARA CADA
+ 
+  //  SELECIONA TODOS OS DADOS DO SERVIDOR E CRIA UM TR PARA CADA
   selectAll(){
 
     Fetch.get("/users").then(json => {
@@ -176,15 +178,14 @@ class UserController{
 
   }
 
-//==================================================================================================
-
-  // ADICIONA O USUÁRIO RECEBIDO NA TABELA
+  //  ADICIONA O USUÁRIO RECEBIDO NA TABELA
   addLine(dataUser){
     let tr = this.getTr(dataUser) 
     this.tableEl.appendChild(tr);
     this.updateCount()    
   }
 
+  //  CRIA A NOVA LINHA DA TABELA
   getTr(dataUser, tr = null){
 
     if (tr === null){
@@ -207,6 +208,7 @@ class UserController{
     return tr
   }
 
+  //  OBSERVA EVENTOS DOS BOTÕES DA TR 
   addEventTR(tr){
 
     // DELETE
@@ -228,7 +230,6 @@ class UserController{
       form.dataset.trID = tr.sectionRowIndex;
       for (let campo in json){
         let field = form.querySelector("[name="+campo.replace("_", "")+"]")
-        console.log(field)
         if (field){
           switch (field.type) {
             case "file":
